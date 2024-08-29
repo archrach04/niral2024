@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Processing Results</h1>
+
+        {% if results %}
+            {% for result in results %}
+                <h2>Results for File: {{ result.filename }}</h2>
+                {% if result.positive_results %}
+                    <h3>Positive Feedback Detected</h3>
+                    <ul>
+                        <li><strong>Fuel Type:</strong> {{ result.positive_results.fuel_type }}</li>
+                        <li><strong>Transmission Type:</strong> {{ result.positive_results.transmission_type }}</li>
+                        <li><strong>Preferred Color:</strong> {{ result.positive_results.preferred_color }}</li>
+                        <li><strong>Car Types:</strong> {{ result.positive_results.car_types | join(', ') }}</li>
+                        <li><strong>Models Found:</strong> {{ result.positive_results.models }}</li>
+                        <li><strong>Years Found:</strong> {{ result.positive_results.years | join(', ') }}</li>
+                        <li><strong>Distances Found:</strong> {{ result.positive_results.distances | join(', ') }}</li>
+                        <li><strong>Free RC Transfer:</strong> {{ result.positive_results.free_rc_transfer }}</li>
+                        <li><strong>Money Back Guarantee:</strong> {{ result.positive_results.money_back_guarantee }}</li>
+                        <li><strong>Free RSA:</strong> {{ result.positive_results.free_rsa }}</li>
+                        <li><strong>Return Policy:</strong> {{ result.positive_results.return_policy }}</li>
+                    </ul>
+                {% else %}
+                    <p>No positive feedback detected.</p>
+                {% endif %}
+
+                <h3>Negative Feedback Summary</h3>
+                <pre>{{ result.feedback_summary }}</pre>
+            {% endfor %}
+        {% else %}
+            <p>No files were processed or no feedback detected.</p>
+        {% endif %}
+
+        <a href="{{ url_for('index') }}">Upload Another File</a>
+    </div>
+</body>
+</html>
